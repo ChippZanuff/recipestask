@@ -18,3 +18,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/dashboard', 'DashboardController@index')->middleware('auth');
+Route::get('/recipes/{recipe}', function (\App\Recipe $recipe) {
+    $presenter = new \App\ModelPresenters\RecipePresenter($recipe);
+    return view('recipes.recipe', ['recipe' => $presenter]);
+})->middleware('auth');
